@@ -1,11 +1,10 @@
 import java.util.ArrayList;
-import java.util.Scanner;
 
-public class Duke {
+class Duke {
     private ArrayList<Task> taskLists = new ArrayList<Task>();
     private int taskCounter = 0;
 
-    private Duke() { //constructor
+    Duke() { //constructor
         greet();
     }
 
@@ -13,49 +12,130 @@ public class Duke {
         System.out.println("Hello! I'm Duke \nWhat can I do for you?");
     }
 
-    private String parseAction(String input) {
-        String[] input_splitted = input.split(" ", 2);
-        return input_splitted[0];
+    String parseAction(String input) {
+        String[] inputSplit = input.split(" ", 2);
+        return inputSplit[0];
     }
 
-    private String parseTaskNumber(String input) {
-        String[] input_splitted = input.split(" ");
-        return input_splitted[1];
+    String parseTaskNumber(String input) throws DukeException{
+        if("done".equals(input)) {
+            throw new DukeException("Task number cannot be empty, use <list> to see task number");
+        }
+        else {
+            String[] inputSplit = input.split(" ");
+            if (inputSplit.length == 1) {
+                throw new DukeException("Task number cannot be empty, use <list> to see task number");
+            }
+            else if (inputSplit.length > 2) {
+                throw new DukeException("Only the task number should be specified");
+            }
+            else if(inputSplit[1].isBlank()){
+                throw new DukeException("The task number cannot be a space bar");
+            }
+            else if(!inputSplit[1].matches("^[0-9]+$")) {
+                throw new DukeException("The task number should be numeric only");
+            }
+            return inputSplit[1];
+        }
     }
 
-    private String parseTaskTime(String input) {
+    String parseTaskTime(String input) throws DukeException{
         int index = input.lastIndexOf("/");
-        return input.substring(index+4,input.length()); //+4 because /by_ or /at_
+        String date = input.substring(index+4,input.length()); //+4 because of /by_ or /at_
+        if(date.isBlank())
+        {
+            throw new DukeException("The time cannot be empty or space bar");
+        }
+        return date;
     }
 
-    private String parseToDoDesc(String action, String input) {
-        return input.substring(action.length()+1, input.length()); //+1 because spacebar
+    String parseToDoDesc(String action, String input) throws DukeException {
+        if("todo".equals(input)) {
+            throw new DukeException("The description of a todo cannot be empty.");
+        }
+        else {
+            String[] inputSplit = input.split(" ");
+            if(inputSplit.length == 1) {
+                throw new DukeException("The description of a todo cannot be empty");
+            }
+            else if(inputSplit[1].isBlank()){
+                throw new DukeException("The description of a todo cannot be a space bar");
+            }
+        }
+        return input.substring(action.length()+1, input.length()); //+1 because of the space bar
     }
 
-    private String parseDeadlineDesc(String action, String input) {
+    String parseDeadlineDesc(String action, String input) throws DukeException {
+        if("deadline".equals(input)) {
+            throw new DukeException("The description of a deadline cannot be empty.");
+        }
+        else if(!input.contains("/by")){
+            throw new DukeException("The deadline requires an end date/time using /by");
+        }
+        else {
+            String[] splitInput = input.split("/by ");
+            if(input.startsWith("deadline /by")) {
+                throw new DukeException("The description of a deadline cannot be empty.");
+            }
+            if(splitInput.length == 1) {
+                throw new DukeException("The deadline requires an end date/time after specifying /by");
+            }
+        }
         int index = input.indexOf("/by");
-        return input.substring(action.length()+1,index); //+1 because spacebar_
+        String description = input.substring(action.length()+1,index);//+1 because of the space bar_
+        if(description.isBlank()) {
+            throw new DukeException("The description of a deadline cannot be " +
+                    "empty or space even when /by is correct");
+        }
+        return description;
     }
 
-    private String parseEventDesc(String action, String input) {
+    String parseEventDesc(String action, String input) throws DukeException{
+        if("event".equals(input)) {
+            throw new DukeException("The description of a event cannot be empty.");
+        }
+        else if(!input.contains("/at")){
+            throw new DukeException("The event requires a start date/time");
+        }
+        else {
+            String[] splitInput = input.split("/at ");
+            if(input.startsWith("event /at")) {
+                throw new DukeException("The description of an event cannot be empty.");
+            }
+            if(splitInput.length == 1) {
+                throw new DukeException("The event requires a start date/time after specifying /at");
+            }
+        }
         int index = input.indexOf("/at");
-        return input.substring(action.length()+1,index); //+1 because spacebar_
+        String description = input.substring(action.length()+1,index);//+1 because of the space bar_
+        if(description.isBlank()) {
+            throw new DukeException("The description of a deadline cannot be " +
+                    "empty or space even when /by is correct");
+        }
+        return description;
     }
 
-    private void listTask() {
+    void listTask(String input) throws DukeException {
+        if(!"list".equals(input)) {
+            throw new DukeException("The list command should not have trailing arguments");
+        }
+        if(taskLists.size() == 0) {
+            throw new DukeException("The list is empty");
+        }
         for(int i = 0; i < taskLists.size(); i++) {
             System.out.println(i+1 + ": " + taskLists.get(i).toString());
         }
     }
 
-    private void addTask(Task newTask) {
+    void addTask(Task newTask) {
         taskLists.add(newTask);
         taskCounter++;
-        String output = String.format("Got it. I've added this task: \n" + newTask.toString() + "\n" + "Now you have " + taskCounter + " tasks in the list.");
+        String output = String.format("Got it. I've added this task: \n" + newTask.toString()
+                + "\n" + "Now you have " + taskCounter + " tasks in the list.");
         System.out.println(output);
     }
 
-    private void setTask(int taskNumber) {
+    void setTask(int taskNumber) throws DukeException{
         if(taskNumber >= 1 && taskNumber <= taskCounter) {
             if(!taskLists.get(taskNumber-1).isDone()) {
                 taskLists.get(taskNumber-1).setStatus();
@@ -63,56 +143,14 @@ public class Duke {
                 System.out.println(taskLists.get(taskNumber-1).toString());
             }
             else {
-                System.out.println("Task is already done");
+                throw new DukeException("Task is already done");
             }
         }
         else {
-            System.out.println("Invalid task number");
+            throw new DukeException("Invalid task number");
         }
-
     }
-
-    private void exit() {
+    void exit() {
         System.out.println("Bye. Hope to see you again soon!");
-    }
-
-    public static void main(String[] args) {
-        Duke duke = new Duke();
-        Scanner scanner = new Scanner(System.in);
-        while(scanner.hasNextLine()) {
-            String input = scanner.nextLine();
-            String action = duke.parseAction(input);
-            switch(action) {
-            case "todo":
-                String description = duke.parseToDoDesc(action, input);
-                Todo todo = new Todo (description);
-                duke.addTask(todo);
-                break;
-            case "deadline":
-                description = duke.parseDeadlineDesc(action, input);
-                String by = duke.parseTaskTime(input);
-                Deadline deadline = new Deadline(description,by);
-                duke.addTask(deadline);
-                break;
-            case "event":
-                description = duke.parseEventDesc(action, input);
-                String at = duke.parseTaskTime(input);
-                Event event = new Event(description,at);
-                duke.addTask(event);
-                break;
-            case "done":
-                int taskNumber = Integer.parseInt(duke.parseTaskNumber(input));
-                duke.setTask(taskNumber);
-                break;
-            case "list":
-                duke.listTask();
-                break;
-            case "bye":
-                duke.exit();
-                return; //no break since it exits program
-            default:
-                System.out.println("Invalid input");
-            }
-        }
     }
 }
