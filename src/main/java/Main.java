@@ -23,7 +23,7 @@ public class Main {
             case "deadline":
                 try {
                     description = duke.parseDeadlineDesc(action, input);
-                    String by = duke.parseTaskTime(input);
+                    String by = duke.parseDeadlineTime(input);
                     Deadline deadline = new Deadline(description, by);
                     duke.addTask(deadline);
                 }
@@ -34,7 +34,7 @@ public class Main {
             case "event":
                 try {
                     description = duke.parseEventDesc(action, input);
-                    String at = duke.parseTaskTime(input);
+                    String at = duke.parseEventTime(input);
                     Event event = new Event(description, at);
                     duke.addTask(event);
                 }

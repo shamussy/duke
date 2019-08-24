@@ -39,9 +39,21 @@ class Duke {
         }
     }
 
-    String parseTaskTime(String input) throws DukeException{
-        int index = input.lastIndexOf("/");
-        String date = input.substring(index+4,input.length()); //+4 because of /by_ or /at_
+    String parseDeadlineTime(String input) throws DukeException{
+        int index = input.lastIndexOf(" /by ");
+        String date = input.substring(index+5,input.length()); //+3 because of _/by_
+        System.out.println(date);
+        if(date.isBlank())
+        {
+            throw new DukeException("The time cannot be empty or space bar");
+        }
+        return date;
+    }
+
+    String parseEventTime(String input) throws DukeException{
+        int index = input.lastIndexOf(" /at ");
+        String date = input.substring(index+5,input.length()); //+3 because of _/at_
+        System.out.println(date);
         if(date.isBlank())
         {
             throw new DukeException("The time cannot be empty or space bar");
@@ -73,15 +85,16 @@ class Duke {
             throw new DukeException("The deadline requires an end date/time using /by");
         }
         else {
-            String[] splitInput = input.split("/by ");
+            String[] splitInput = input.split(" /by ");
             if(input.startsWith("deadline /by")) {
                 throw new DukeException("The description of a deadline cannot be empty.");
             }
             if(splitInput.length == 1) {
-                throw new DukeException("The deadline requires an end date/time after specifying /by");
+                throw new DukeException("The deadline requires an end date/time after specifying /by" +
+                        "\nMake sure to use <space>/by<space><date>");
             }
         }
-        int index = input.indexOf("/by");
+        int index = input.lastIndexOf(" /by ");
         String description = input.substring(action.length()+1,index);//+1 because of the space bar_
         if(description.isBlank()) {
             throw new DukeException("The description of a deadline cannot be " +
@@ -98,15 +111,16 @@ class Duke {
             throw new DukeException("The event requires a start date/time");
         }
         else {
-            String[] splitInput = input.split("/at ");
+            String[] splitInput = input.split(" /at ");
             if(input.startsWith("event /at")) {
                 throw new DukeException("The description of an event cannot be empty.");
             }
             if(splitInput.length == 1) {
-                throw new DukeException("The event requires a start date/time after specifying /at");
+                throw new DukeException("The event requires a start date/time after specifying /at" +
+                        "\nMake sure to use <space>/at<space><date>");
             }
         }
-        int index = input.indexOf("/at");
+        int index = input.lastIndexOf(" /at ");
         String description = input.substring(action.length()+1,index);//+1 because of the space bar_
         if(description.isBlank()) {
             throw new DukeException("The description of a deadline cannot be " +
