@@ -3,11 +3,11 @@ import java.util.Scanner;
 
 public class Duke {
 
-    public String getGreeting() {
+    private String getGreeting() {
         return "Hello! I'm Duke \nWhat can I do for you?";
     }
 
-    public void getInput() {
+    private void getInput() {
         Scanner scanner = new Scanner(System.in);
         ArrayList<String> tasklists = new ArrayList<String>();
         while(true) {
