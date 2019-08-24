@@ -1,24 +1,29 @@
 public class Task {
     private String description;
-    boolean isDone;
+    private boolean isDone;
 
     Task(String description) { //constructor
         this.description = description;
         this.isDone = false;
     }
 
-    String getStatusIcon() {
+    private String getStatusIcon() {
         return (isDone ? "\u2713" : "\u2718"); //return tick or X symbols using ternary operators
     }
-    public boolean isDone() {
-        return isDone;
+
+    boolean isDone() {
+        return this.isDone;
     }
 
-    String getDescription() {
+    private String getDescription() {
         return this.description;
     }
 
     void setStatus() {
         this.isDone = true;
+    }
+
+    public String toString() {
+        return "[" + this.getStatusIcon() + "] " + this.getDescription();
     }
 }
