@@ -1,11 +1,70 @@
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 
 class Duke {
     private ArrayList<Task> taskLists = new ArrayList<Task>();
+    private ArrayList<String> stringTaskList = new ArrayList<String>();
+    private Storage storage = new Storage("data/tasks.txt");;
     private int taskCounter = 0;
 
     Duke() { //constructor
         greet();
+        try {
+            stringTaskList = storage.readFile();
+            importTask();
+        } catch (FileNotFoundException e) {
+            System.out.println("exception");
+        }
+    }
+    private void importTask() {
+        for(String line : stringTaskList) {
+            String taskType = line.substring(0,1);
+            String taskStatus = line.substring(4,5);
+            String[] lineSplit = line.split("\\|",-1);
+            int descriptionLength = Integer.parseInt(lineSplit[2].trim());
+            int descriptionLengthIndex = line.indexOf(" | ", line.indexOf(" ") + 1);
+            String description = line.substring(descriptionLengthIndex+7,
+                    descriptionLengthIndex+7+descriptionLength);
+            switch (taskType) {
+                case "T":
+                    Todo todo = new Todo(description);
+                    if("1".equals(taskStatus)) {
+                        todo.setStatus();
+                    }
+                    taskLists.add(todo);
+                    break;
+                case "D":
+                    int dateIndex = descriptionLengthIndex+7+descriptionLength;
+                    String leftover = line.substring(dateIndex+3,line.length());
+                    String[] dateSplit = leftover.split("\\|",-1);
+                    String dateLength = dateSplit[0].trim();
+                    String date = line.substring(dateIndex+3+dateLength.length()+3,
+                            dateIndex+3+dateLength.length()+3+Integer.parseInt(dateLength));
+                    Deadline deadline = new Deadline(description, date);
+                    if("1".equals(taskStatus)) {
+                        deadline.setStatus();
+                    }
+                    taskLists.add(deadline);
+                    break;
+                case "E":
+                    dateIndex = descriptionLengthIndex+7+descriptionLength;
+                    leftover = line.substring(dateIndex+3,line.length());
+                    dateSplit = leftover.split("\\|",-1);
+                    dateLength = dateSplit[0].trim();
+                    date = line.substring(dateIndex+3+dateLength.length()+3,
+                            dateIndex+3+dateLength.length()+3+Integer.parseInt(dateLength));
+                    Event event = new Event(description, date);
+                    if("1".equals(taskStatus)) {
+                        event.setStatus();
+                    }
+                    break;
+            }
+        }
+        taskCounter = taskLists.size();
+        for(int i = 0; i < taskLists.size(); i++) {
+            System.out.println(i+1 + ": " + taskLists.get(i).toString());
+        }
     }
 
     private void greet() {
@@ -141,20 +200,34 @@ class Duke {
         }
     }
 
-    void addTask(Task newTask) {
+    void addTask(Task newTask) throws IOException {
         taskLists.add(newTask);
         taskCounter++;
         String output = String.format("Got it. I've added this task: \n" + newTask.toString()
                 + "\n" + "Now you have " + taskCounter + " tasks in the list.");
         System.out.println(output);
+        try {
+            stringTaskList = storage.objectArrayToStringArray(taskLists);
+            storage.writeFile(stringTaskList);
+        }
+        catch (IOException FileNotFoundException){
+            storage.writeFile(stringTaskList);
+        }
     }
 
-    void setTask(int taskNumber) throws DukeException{
+    void setTask(int taskNumber) throws DukeException, IOException {
         if(taskNumber >= 1 && taskNumber <= taskCounter) {
             if(!taskLists.get(taskNumber-1).isDone()) {
                 taskLists.get(taskNumber-1).setStatus();
                 System.out.println("Nice! I've marked this task as done");
                 System.out.println(taskLists.get(taskNumber-1).toString());
+                try {
+                    stringTaskList = storage.objectArrayToStringArray(taskLists);
+                    storage.writeFile(stringTaskList);
+                }
+                catch (IOException FileNotFoundException){
+                    storage.writeFile(stringTaskList);
+                }
             }
             else {
                 throw new DukeException("Task is already done");
@@ -164,7 +237,17 @@ class Duke {
             throw new DukeException("Invalid task number");
         }
     }
-    void exit() {
+    void exit(String input) throws DukeException, IOException {
+        if(!"bye".equals(input)) {
+            throw new DukeException("The bye command should not have trailing arguments");
+        }
+        try {
+            stringTaskList = storage.objectArrayToStringArray(taskLists);
+            storage.writeFile(stringTaskList);
+        }
+        catch (IOException FileNotFoundException){
+            storage.writeFile(stringTaskList);
+        }
         System.out.println("Bye. Hope to see you again soon!");
     }
 }

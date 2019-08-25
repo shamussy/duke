@@ -15,7 +15,7 @@ public class Task {
         return this.isDone;
     }
 
-    private String getDescription() {
+    String getDescription() {
         return this.description;
     }
 
@@ -25,5 +25,9 @@ public class Task {
 
     public String toString() {
         return "[" + this.getStatusIcon() + "] " + this.getDescription();
+    }
+
+    public String export() {
+        return "";
     }
 }

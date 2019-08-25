@@ -1,3 +1,5 @@
+import java.io.File;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Main {
@@ -15,7 +17,7 @@ public class Main {
                     Todo todo = new Todo(description);
                     duke.addTask(todo);
                 }
-                catch (DukeException exceptionMessage) {
+                catch (DukeException | IOException exceptionMessage) {
                     System.out.println(exceptionMessage.toString());
                 }
 
@@ -27,7 +29,7 @@ public class Main {
                     Deadline deadline = new Deadline(description, by);
                     duke.addTask(deadline);
                 }
-                catch (DukeException exceptionMessage) {
+                catch (DukeException | IOException exceptionMessage) {
                     System.out.println(exceptionMessage.toString());
                 }
                 break;
@@ -38,7 +40,7 @@ public class Main {
                     Event event = new Event(description, at);
                     duke.addTask(event);
                 }
-                catch (DukeException exceptionMessage) {
+                catch (DukeException | IOException exceptionMessage) {
                     System.out.println(exceptionMessage.toString());
                 }
                 break;
@@ -47,7 +49,7 @@ public class Main {
                     int taskNumber = Integer.parseInt(duke.parseTaskNumber(input));
                     duke.setTask(taskNumber);
                 }
-                catch (DukeException exceptionMessage) {
+                catch (DukeException | IOException exceptionMessage) {
                     System.out.println(exceptionMessage.toString());
                 }
                 break;
@@ -60,8 +62,14 @@ public class Main {
                 }
                 break;
             case "bye":
-                duke.exit();
-                return; //no break since it exits program
+                try {
+                    duke.exit(input);
+                    return; //no break since it exits program
+                }
+                catch (DukeException | IOException exceptionMessage) {
+                    System.out.println(exceptionMessage.toString());
+                }
+                break;
             default:
                 System.out.println("I'm sorry, but I don't know what that means :-(");
             }
