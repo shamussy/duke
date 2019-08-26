@@ -101,7 +101,6 @@ class Duke {
     String parseDeadlineTime(String input) throws DukeException{
         int index = input.lastIndexOf(" /by ");
         String date = input.substring(index+5,input.length()); //+3 because of _/by_
-        System.out.println(date);
         if(date.isBlank())
         {
             throw new DukeException("The time cannot be empty or space bar");
@@ -112,7 +111,6 @@ class Duke {
     String parseEventTime(String input) throws DukeException{
         int index = input.lastIndexOf(" /at ");
         String date = input.substring(index+5,input.length()); //+3 because of _/at_
-        System.out.println(date);
         if(date.isBlank())
         {
             throw new DukeException("The time cannot be empty or space bar");
