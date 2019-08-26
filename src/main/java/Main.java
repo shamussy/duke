@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.Scanner;
 
 public class Main {
@@ -29,7 +30,7 @@ public class Main {
                     Deadline deadline = new Deadline(description, by);
                     duke.addTask(deadline);
                 }
-                catch (DukeException | IOException exceptionMessage) {
+                catch (DukeException | IOException | ParseException exceptionMessage) {
                     System.out.println(exceptionMessage.toString());
                 }
                 break;
@@ -40,7 +41,7 @@ public class Main {
                     Event event = new Event(description, at);
                     duke.addTask(event);
                 }
-                catch (DukeException | IOException exceptionMessage) {
+                catch (DukeException | IOException | ParseException exceptionMessage) {
                     System.out.println(exceptionMessage.toString());
                 }
                 break;

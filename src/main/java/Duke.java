@@ -1,6 +1,9 @@
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
+import java.text.SimpleDateFormat;
 
 class Duke {
     private ArrayList<Task> taskLists = new ArrayList<Task>();
@@ -98,24 +101,60 @@ class Duke {
         }
     }
 
-    String parseDeadlineTime(String input) throws DukeException{
+    String parseDeadlineTime(String input) throws DukeException, ParseException {
         int index = input.lastIndexOf(" /by ");
         String date = input.substring(index+5,input.length()); //+3 because of _/by_
         if(date.isBlank())
         {
             throw new DukeException("The time cannot be empty or space bar");
         }
-        return date;
+        String dateRegex =  "(0?[1-9]|[12][0-9]|3[01])/(0?[1-9]|1[012])/((19|20)\\d\\d)";
+        String timeRegex = "^(0[0-9]|1[0-9]|2[0-3])[0-5][0-9]$";
+        String[] dateTime = date.split(" ", 2);
+        if(dateTime.length != 2) {
+            throw new DukeException("The format is wrong, please try in DD/MM/YYYY HHMM format");
+        }
+        String dateOnly = dateTime[0].trim();
+        String timeOnly = dateTime[1].trim();
+
+        if(!dateOnly.matches(dateRegex)) {
+            throw new DukeException("The date format is wrong, please try in DD/MM/YYYY format");
+        }
+        if(!timeOnly.matches(timeRegex)) {
+            throw new DukeException("The time format is wrong, please try again in HHMM format");
+        }
+
+        Date date1=new SimpleDateFormat("dd/MM/yyyy HHmm").parse(dateOnly + " " + timeOnly);
+        SimpleDateFormat date2 = new SimpleDateFormat("EEEE dd MMMM yyyy hh:mm a");
+        return date2.format(date1);
     }
 
-    String parseEventTime(String input) throws DukeException{
+    String parseEventTime(String input) throws DukeException, ParseException {
         int index = input.lastIndexOf(" /at ");
         String date = input.substring(index+5,input.length()); //+3 because of _/at_
         if(date.isBlank())
         {
             throw new DukeException("The time cannot be empty or space bar");
         }
-        return date;
+        String dateRegex =  "(0?[1-9]|[12][0-9]|3[01])/(0?[1-9]|1[012])/((19|20)\\d\\d)";
+        String timeRegex = "^(0[0-9]|1[0-9]|2[0-3])[0-5][0-9]$";
+        String[] dateTime = date.split(" ", 2);
+        if(dateTime.length != 2) {
+            throw new DukeException("The format is wrong, please try in DD/MM/YYYY HHMM format");
+        }
+        String dateOnly = dateTime[0].trim();
+        String timeOnly = dateTime[1].trim();
+
+        if(!dateOnly.matches(dateRegex)) {
+            throw new DukeException("The date format is wrong, please try in DD/MM/YYYY format");
+        }
+        if(!timeOnly.matches(timeRegex)) {
+            throw new DukeException("The time format is wrong, please try again in HHMM format");
+        }
+
+        Date date1=new SimpleDateFormat("dd/MM/yyyy HHmm").parse(dateOnly + " " + timeOnly);
+        SimpleDateFormat date2 = new SimpleDateFormat("EEEE dd MMMM yyyy hh:mm a");
+        return date2.format(date1);
     }
 
     String parseToDoDesc(String action, String input) throws DukeException {
