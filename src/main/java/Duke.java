@@ -14,7 +14,7 @@ class Duke {
             stringTaskList = storage.readFile();
             importTask();
         } catch (FileNotFoundException e) {
-            System.out.println("exception");
+            //ignore
         }
     }
     private void importTask() {
