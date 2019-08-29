@@ -1,3 +1,5 @@
+package duke.storage;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -31,11 +33,4 @@ public class Storage {
         writer.close();
     }
 
-    public ArrayList<String> objectArrayToStringArray(ArrayList<Task> taskList) {
-        ArrayList<String> stringTaskList = new ArrayList<String>();
-        for (Task task : taskList) {
-            stringTaskList.add(task.export());
-        }
-        return stringTaskList;
-    }
 }
