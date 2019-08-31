@@ -77,6 +77,16 @@ public class TaskList {
         return tasks.get(i - 1);
     }
 
+    public ArrayList<Task> filter(String keyword) {
+        ArrayList<Task> output = new ArrayList<>();
+        for(Task task : tasks) {
+            if(task.getDescription().toLowerCase().contains(keyword.toLowerCase())) {
+                output.add(task);
+            }
+        }
+        return output;
+    }
+
     public void markDone(int i) throws IndexOutOfBoundsException {
         tasks.get(i - 1).markDone();
     }
