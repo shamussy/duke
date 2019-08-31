@@ -81,6 +81,10 @@ public class TaskList {
         tasks.get(i - 1).markDone();
     }
 
+    public void delete(int i) throws IndexOutOfBoundsException {
+        tasks.remove(i-1);
+    }
+
     public ArrayList<String> export() {
         ArrayList<String> output = new ArrayList<>();
         for(int i = 1; i <= tasks.size(); i++) {
