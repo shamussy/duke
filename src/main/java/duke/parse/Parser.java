@@ -17,6 +17,10 @@ import duke.task.Todo;
 public class Parser {
     private final Scanner scanner = new Scanner(System.in);
 
+    public boolean hasNextLine() {
+        return scanner.hasNextLine();
+    }
+
     public Command parseLine() throws DukeException {
         String input = scanner.nextLine();
         parseIsBlank(input);

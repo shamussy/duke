@@ -37,7 +37,7 @@ public class Deadline extends Task{
         }
         if(splitInput.length == 1) {
             throw new DukeException("The deadline requires an end date/time after specifying /by" +
-                    "\n☹ OOPS!!! Make sure to use <space>/by<space><date>");
+                    ". Make sure to use <space>/by<space><date>");
         }
         int index = data.lastIndexOf(" /by ");
         String description = data.substring(0,index);

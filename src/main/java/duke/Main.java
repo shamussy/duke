@@ -15,6 +15,7 @@ public class Main {
         Parser parser;
         TaskList tasks;
         Storage storage;
+        Command command;
 
         ui = new Ui();
         parser = new Parser();
@@ -31,9 +32,9 @@ public class Main {
 
         boolean hasExited = false;
 
-        while (!hasExited) {
+        while (!hasExited && parser.hasNextLine()) {
             try {
-                Command command = parser.parseLine();
+                command = parser.parseLine();
                 command.execute(tasks, ui, storage);
                 hasExited = command.isExit();
             } catch (DukeException exceptionMessage) {

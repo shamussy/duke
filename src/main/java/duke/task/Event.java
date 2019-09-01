@@ -37,7 +37,7 @@ public class Event extends Task{
         }
         if(splitInput.length == 1) {
             throw new DukeException("The event requires an end date/time after specifying /at" +
-                    "\n☹ OOPS!!! Make sure to use <space>/at<space><date>");
+                    ". Make sure to use <space>/at<space><date>");
         }
         int index = data.lastIndexOf(" /at ");
         String description = data.substring(0,index);
