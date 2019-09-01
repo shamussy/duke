@@ -7,7 +7,7 @@ import duke.storage.Storage;
 import duke.task.TaskList;
 import duke.ui.Ui;
 
-public class DeleteCommand extends Command{
+public class DeleteCommand extends Command {
 
     private final int taskNumber;
     private final String data;
@@ -16,7 +16,7 @@ public class DeleteCommand extends Command{
         data = data.trim();
         this.data = data;
         String pattern = "^[0-9]+$";
-        if(!data.matches(pattern)) {
+        if (!data.matches(pattern)) {
             throw new DukeException("The task number should be numeric only");
         } else {
             try {
@@ -28,7 +28,7 @@ public class DeleteCommand extends Command{
     }
 
     public void execute(TaskList tasks, Ui ui, Storage storage) {
-        if(this.taskNumber <= tasks.size()) {
+        if (this.taskNumber <= tasks.size()) {
             try {
                 String taskInformation = tasks.get(taskNumber).toString();
                 tasks.delete(this.taskNumber);

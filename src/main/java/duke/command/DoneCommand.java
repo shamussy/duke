@@ -7,7 +7,7 @@ import duke.storage.Storage;
 import duke.task.TaskList;
 import duke.ui.Ui;
 
-public class DoneCommand extends Command{
+public class DoneCommand extends Command {
 
     private final int taskNumber;
     private final String data;
@@ -16,10 +16,9 @@ public class DoneCommand extends Command{
         data = data.trim();
         this.data = data;
         String pattern = "^[0-9]+$";
-        if(!data.matches(pattern)) {
+        if (!data.matches(pattern)) {
             throw new DukeException("The task number should be numeric only");
-        }
-        else {
+        } else {
             try {
                 this.taskNumber = Integer.parseInt(data);
             } catch (NumberFormatException exceptionMessage) {
@@ -30,11 +29,10 @@ public class DoneCommand extends Command{
 
     public void execute(TaskList tasks, Ui ui, Storage storage) {
         try {
-            if(tasks.get(taskNumber).isDone()) {
+            if (tasks.get(taskNumber).isDone()) {
                 ui.printError("The task is already done");
                 ui.printMessage(tasks.get(taskNumber).toString());
-            }
-            else {
+            } else {
                 try {
                     tasks.markDone(taskNumber);
                     ui.printMessage("Nice! I've marked this task as done:");

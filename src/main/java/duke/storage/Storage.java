@@ -27,7 +27,7 @@ public class Storage {
     public void writeFile(ArrayList<String> lines) throws IOException {
         new File("data/").mkdirs(); //creates directory if it does not exist
         FileWriter writer = new FileWriter(path);
-        for (String line: lines) {
+        for (String line : lines) {
             writer.write(line + "\n");
         }
         writer.close();

@@ -11,5 +11,5 @@ public abstract class Command {
         return exit;
     }
 
-    public abstract void execute(TaskList tasks, Ui ui, Storage storage );
+    public abstract void execute(TaskList tasks, Ui ui, Storage storage);
 }

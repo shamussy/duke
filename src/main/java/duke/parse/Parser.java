@@ -30,14 +30,14 @@ public class Parser {
     }
 
     private void parseIsBlank(String input) throws DukeException {
-        if(input.isBlank() || input.isEmpty()) {
+        if (input.isBlank() || input.isEmpty()) {
             throw new DukeException("User input is empty, please enter something");
         }
     }
 
     private String parseAction(String input) throws DukeException {
-        String[] inputSplit = input.split(" ",2);
-        if("bye".equals(inputSplit[0]) && inputSplit.length != 1) {
+        String[] inputSplit = input.split(" ", 2);
+        if ("bye".equals(inputSplit[0]) && inputSplit.length != 1) {
             throw new DukeException("bye should not contain trailing arguments");
         } else if ("list".equals(inputSplit[0]) && inputSplit.length != 1) {
             throw new DukeException("list should not contain trailing arguments");
@@ -46,7 +46,7 @@ public class Parser {
     }
 
     private String parseData(String input, String action) {
-        String data = input.substring(action.length(),input.length());
+        String data = input.substring(action.length(), input.length());
         return data;
     }
 

@@ -7,7 +7,7 @@ import duke.task.TaskList;
 import duke.ui.Ui;
 import duke.task.Task;
 
-public class FindCommand extends Command{
+public class FindCommand extends Command {
 
     private final String keyword;
 
@@ -16,7 +16,7 @@ public class FindCommand extends Command{
     }
 
     public void execute(TaskList tasks, Ui ui, Storage storage) {
-        if(!keyword.isEmpty() && !keyword.isBlank()) {
+        if (!keyword.isEmpty() && !keyword.isBlank()) {
             ArrayList<Task> result = tasks.filter(keyword);
             if (result.size() == 0) {
                 ui.printError("There are no tasks that match this keyword");
