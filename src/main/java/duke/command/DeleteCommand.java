@@ -7,11 +7,20 @@ import duke.storage.Storage;
 import duke.task.TaskList;
 import duke.ui.Ui;
 
+/**
+ * Class representing a command to delete an item from the task list.
+ */
 public class DeleteCommand extends Command {
 
     private final int taskNumber;
     private final String data;
 
+    /**
+     * Creates a new DeleteCommand with the specified index.
+     *
+     * @param data The index of the task to delete, where the first task is 1.
+     * @throws DukeException when the string cannot be parsed into an integer.
+     */
     public DeleteCommand(String data) throws DukeException {
         data = data.trim();
         this.data = data;
@@ -27,6 +36,13 @@ public class DeleteCommand extends Command {
         }
     }
 
+    /**
+     * Executes this command on the given task list and user interface.
+     *
+     * @param tasks The task list.
+     * @param ui The user interface displaying events on the task list.
+     * @param storage The place where tasks will be stored.
+     */
     public void execute(TaskList tasks, Ui ui, Storage storage) {
         if (this.taskNumber <= tasks.size()) {
             try {
