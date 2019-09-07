@@ -78,7 +78,7 @@ public class Parser {
     }
 
     /**
-     * Parses a input and returns a sanitised data string
+     * Parses a input and returns a sanitised data string.
      *
      * @param input The raw input that the user enters.
      * @param action The action identified by {@link #parseAction(String)}.

@@ -29,10 +29,10 @@ public class Deadline extends Task {
      * Creates this instance of a Deadline object.
      *
      * @param data The raw data to be parsed by {@link #parseDeadlineDesc(String)}
-     * and {@link #parseDeadlineTime(String)}.
+     *     and {@link #parseDeadlineTime(String)}.
      *
      * @return a new Deadline task that has description and deadline time properly parsed
-     * and sanitised.
+     *     and sanitised.
      * @throws DukeException when any of the parsing fails to conform with standards.
      */
     public static Deadline create(String data) throws DukeException {
@@ -63,14 +63,14 @@ public class Deadline extends Task {
             throw new DukeException("The description of a deadline cannot be empty.");
         }
         if (splitInput.length == 1) {
-            throw new DukeException("The deadline requires an end date/time after specifying /by" +
-                    ". Make sure to use <space>/by<space><date>");
+            throw new DukeException("The deadline requires an end date/time after specifying /by"
+                    + ". Make sure to use <space>/by<space><date>");
         }
         int index = data.lastIndexOf(" /by ");
         String description = data.substring(0, index);
         if (description.isBlank()) {
-            throw new DukeException("The description of a deadline cannot be " +
-                    "empty or space even when /by is correct");
+            throw new DukeException("The description of a deadline cannot be "
+                    + "empty or space even when /by is correct");
         }
         description = description.trim();
         return description;

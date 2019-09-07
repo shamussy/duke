@@ -8,7 +8,7 @@ package duke.ui;
 
 public class Ui {
     /**
-     * Prints a message line to the user
+     * Prints a message line to the user.
      *
      * @param msg The message to print.
      */
