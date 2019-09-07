@@ -29,7 +29,7 @@ public class Deadline extends Task {
      * Creates this instance of a Deadline object.
      *
      * @param data The raw data to be parsed by {@link #parseDeadlineDesc(String)}
-     * and {{@link #parseDeadlineTime(String)}}.
+     * and {@link #parseDeadlineTime(String)}.
      *
      * @return a new Deadline task that has description and deadline time properly parsed
      * and sanitised.
@@ -45,6 +45,8 @@ public class Deadline extends Task {
      * Parses the given data and returns the description of the deadline.
      *
      * @param data The raw data, which should contain "/by".
+     * @return description that has been sanitised.
+     * @throws DukeException if date does not conform to standards.
      */
     private static String parseDeadlineDesc(String data) throws DukeException {
         if (data.isEmpty() || data.isBlank()) {

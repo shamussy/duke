@@ -29,7 +29,7 @@ public class Event extends Task {
      * Creates this instance of an Event object.
      *
      * @param data The raw data to be parsed by {@link #parseEventDesc(String)}
-     * and {{@link #parseEventTime(String)}}.
+     * and {@link #parseEventTime(String)}.
      *
      * @return a new Event task that has description and event time properly parsed
      * and sanitised.
@@ -45,6 +45,8 @@ public class Event extends Task {
      * Parses the given data and returns the description of the event.
      *
      * @param data The raw data, which should contain "/at".
+     * @return description that has been sanitised.
+     * @throws DukeException if date does not conform to standards.         s
      */
     private static String parseEventDesc(String data) throws DukeException {
         if (data.isEmpty() || data.isBlank()) {
