@@ -9,6 +9,10 @@ import duke.storage.Storage;
 import duke.task.TaskList;
 import duke.ui.Ui;
 
+/**
+ * The main class.
+ */
+
 class Main {
 
     private Ui ui;
@@ -16,6 +20,9 @@ class Main {
     private TaskList tasks;
     private Storage storage;
 
+    /**
+     * Initializes a new Duke session.
+     */
     private Main() {
         ui = new Ui();
         parser = new Parser();
@@ -28,6 +35,9 @@ class Main {
         }
     }
 
+    /**
+     * Starts up the initialized Duke session.
+     */
     private void run() {
         boolean hasExited = false;
         ui.greet();
