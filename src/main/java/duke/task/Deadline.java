@@ -6,22 +6,46 @@ import java.time.format.DateTimeParseException;
 
 import duke.exception.DukeException;
 
+/**
+ * Class representing a deadline, a task to be completed by a certain time specified.
+ */
 public class Deadline extends Task {
     private final LocalDateTime by;
     private static final DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("d/M/yyyy HHmm");
     private static final DateTimeFormatter displayFormatter = DateTimeFormatter.ofPattern("EEEE dd MMMM yyyy hh:mm a");
 
+    /**
+     * Initializes a Deadline from its description and its time.
+     *
+     * @param description A description of the task which is under deadline.
+     * @param by The time by which this task must be done.
+     */
     Deadline(String description, LocalDateTime by) {
         super(description);
         this.by = by;
     }
 
+    /**
+     * Creates this instance of a Deadline object.
+     *
+     * @param data The raw data to be parsed by {@link #parseDeadlineDesc(String)}
+     * and {{@link #parseDeadlineTime(String)}}.
+     *
+     * @return a new Deadline task that has description and deadline time properly parsed
+     * and sanitised.
+     * @throws DukeException when any of the parsing fails to conform with standards.
+     */
     public static Deadline create(String data) throws DukeException {
         String description = parseDeadlineDesc(data);
         LocalDateTime by = parseDeadlineTime(data);
         return new Deadline(description, by);
     }
 
+    /**
+     * Parses the given data and returns the description of the deadline.
+     *
+     * @param data The raw data, which should contain "/by".
+     */
     private static String parseDeadlineDesc(String data) throws DukeException {
         if (data.isEmpty() || data.isBlank()) {
             throw new DukeException("Description or date cannot be empty or blank spaces only");
@@ -50,6 +74,14 @@ public class Deadline extends Task {
         return description;
     }
 
+    /**
+     * Parses the given data and returns the time of the deadline in proper date format.
+     *
+     * @param data The raw data, which should contain "/by" in its middle followed by
+     *             the deadline specified in DD/MM/YYYY HHMM.
+     * @return date formatted in proper DD/MM/YYYY HHMM format.
+     * @throws DukeException if date does not conform to standards.
+     */
     private static LocalDateTime parseDeadlineTime(String data) throws DukeException {
         int index = data.lastIndexOf(" /by ");
         String date = data.substring(index + 5, data.length()); //+5 because of _/by_
@@ -80,12 +112,22 @@ public class Deadline extends Task {
         }
     }
 
+    /**
+     * Returns a string representation of this Deadline.
+     *
+     * @return The desired string representation with more elaborated date formatting.
+     */
     @Override
     public String toString() {
         return "[D]" + super.toString()
                 + " (by: " + this.by.format(displayFormatter) + ")";
     }
 
+    /**
+     * Exports this Deadline for saving to disk.
+     *
+     * @return A string representation of this deadline containing the task type "D".
+     */
     @Override
     public String export() {
         return "D | " + super.export() + super.getDescription().length() + " | " + super.getDescription()

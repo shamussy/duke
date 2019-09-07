@@ -6,22 +6,46 @@ import java.time.format.DateTimeParseException;
 
 import duke.exception.DukeException;
 
+/**
+ * Class representing an event that will occur at or around a specified time.
+ */
 public class Event extends Task {
     private final LocalDateTime at;
     private static final DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("d/M/yyyy HHmm");
     private static final DateTimeFormatter displayFormatter = DateTimeFormatter.ofPattern("EEEE dd MMMM yyyy hh:mm a");
 
+    /**
+     * Initializes an Event from its description and its time.
+     *
+     * @param description A description of the event.
+     * @param at The time at which this event happens.
+     */
     Event(String description, LocalDateTime at) {
         super(description);
         this.at = at;
     }
 
+    /**
+     * Creates this instance of an Event object.
+     *
+     * @param data The raw data to be parsed by {@link #parseEventDesc(String)}
+     * and {{@link #parseEventTime(String)}}.
+     *
+     * @return a new Event task that has description and event time properly parsed
+     * and sanitised.
+     * @throws DukeException when any of the parsing fails to conform with standards.
+     */
     public static Event create(String data) throws DukeException {
         String description = parseEventDesc(data);
         LocalDateTime at = parseEventTime(data);
         return new Event(description, at);
     }
 
+    /**
+     * Parses the given data and returns the description of the event.
+     *
+     * @param data The raw data, which should contain "/at".
+     */
     private static String parseEventDesc(String data) throws DukeException {
         if (data.isEmpty() || data.isBlank()) {
             throw new DukeException("Description or date cannot be empty or blank spaces only");
@@ -50,6 +74,14 @@ public class Event extends Task {
         return description;
     }
 
+    /**
+     * Parses the given data and returns the time of the event in proper date format.
+     *
+     * @param data The raw data, which should contain "/at" in its middle followed by
+     *             the event time specified in DD/MM/YYYY HHMM.
+     * @return date formatted in proper DD/MM/YYYY HHMM format.
+     * @throws DukeException if date does not conform to standards.
+     */
     private static LocalDateTime parseEventTime(String data) throws DukeException {
         int index = data.lastIndexOf(" /at ");
         String date = data.substring(index + 5, data.length()); //+5 because of _/at_
@@ -80,15 +112,25 @@ public class Event extends Task {
         }
     }
 
+    /**
+     * Returns a string representation of this event.
+     *
+     * @return The desired string representation with more elaborated date formatting.
+     */
     @Override
     public String toString() {
         return "[E]" + super.toString()
                 + " (at: " + this.at.format(displayFormatter) + ")";
     }
 
+    /**
+     * Exports this event for saving to disk.
+     *
+     * @return A string representation of this event containing the task type "E".
+     */
     @Override
     public String export() {
-        return "D | " + super.export() + super.getDescription().length() + " | " + super.getDescription()
+        return "E | " + super.export() + super.getDescription().length() + " | " + super.getDescription()
                 + " | " + this.at.format(inputFormatter).length() + " | " + this.at.format(inputFormatter);
     }
 }

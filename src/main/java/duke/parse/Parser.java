@@ -37,7 +37,7 @@ public class Parser {
      * Takes in user input line by line
      * 
      * @return The corresponding action done by {@link #parseActionMenu(String, String)}.
-     * @throws DukeException
+     * @throws DukeException thrown by {@link #parseActionMenu(String, String)}.
      */
     public Command parseLine() throws DukeException {
         String input = scanner.nextLine();
