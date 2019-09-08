@@ -1,12 +1,10 @@
 package duke.storage;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import java.util.ArrayList;
 
 import org.junit.jupiter.api.Test;
 
-public class StorageTest extends Storage{
+public class StorageTest extends Storage {
     public StorageTest() {
         super("nopath");
     }
