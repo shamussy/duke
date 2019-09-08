@@ -5,7 +5,7 @@ package duke.task;
  */
 public class Task {
     private final String description;
-    private boolean done;
+    boolean done;
 
     /**
      * Initializes a task not yet done with the given description.
@@ -20,7 +20,7 @@ public class Task {
     /**
      * Marks the task as done.
      */
-    void markDone() {
+    public void markDone() {
         done = true;
     }
 
