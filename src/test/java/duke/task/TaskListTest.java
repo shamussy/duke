@@ -1,7 +1,7 @@
 package duke.task;
 
 /**
- * This class overrides multiple functions of TaskList for ease of testing
+ * This class overrides multiple functions of TaskList for ease of testing.
  */
 public class TaskListTest extends TaskList {
     private boolean isEmpty = true;
@@ -26,7 +26,7 @@ public class TaskListTest extends TaskList {
 
     /**
      * Deletes task from TaskList
-     * @param i The index of the task to be retrieved, starting from 1..
+     * @param i The index of the task to be retrieved, starting from 1.
      */
     @Override
     public void delete(int i) {
@@ -34,7 +34,7 @@ public class TaskListTest extends TaskList {
     }
 
     /**
-     * Get information of Task
+     * Get information of Task.
      * @param i The index of the task to be retrieved, starting from 1.
      * @return Task object with information required
      */

@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 public class StorageTest extends Storage {
     /**
-     * Creates a directory named nopath
+     * Creates a directory named nopath.
      */
     public StorageTest() {
         super("nopath");
@@ -22,7 +22,7 @@ public class StorageTest extends Storage {
     }
 
     /**
-     * Tests the writeFile function
+     * Tests the writeFile function.
      */
     @Test
     public void writeFile() {

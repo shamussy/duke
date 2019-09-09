@@ -1,7 +1,7 @@
 package duke.task;
 
 /**
- * This class is meant to override the Task class for ease of testing individual Task functions
+ * This class is meant to override the Task class for ease of testing individual Task functions.
  */
 public class TaskTest extends Task {
     public TaskTest() {
@@ -18,7 +18,7 @@ public class TaskTest extends Task {
     }
 
     /**
-     * This overrides the export function for ease of testing
+     * This overrides the export function for ease of testing.
      * @return export done or not done
      */
     @Override

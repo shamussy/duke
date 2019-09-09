@@ -145,7 +145,7 @@ public class TaskList {
      * <code>delete()</code>
      * takes an index i starting from 1, raising an exception if that index is invalid.
      *
-     * @param i The index of the task to be retrieved, starting from 1..
+     * @param i The index of the task to be retrieved, starting from 1.
      * @throws IndexOutOfBoundsException If position i is not in the list.
      */
     public void delete(int i) throws IndexOutOfBoundsException {
