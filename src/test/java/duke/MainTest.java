@@ -17,8 +17,14 @@ import duke.task.TaskTest;
 import duke.task.Todo;
 import duke.ui.UiTest;
 
+/**
+ * This class is meant to test multiple methods of the core functionality of the application.
+ */
 class MainTest {
-
+    /**
+     * This tests the Task class of the application.
+     * @throws DukeException that the individual methods throw during error in testing.
+     */
     @Test
     void testTask() throws DukeException {
         Todo todo = Todo.create("test todo");
@@ -38,6 +44,9 @@ class MainTest {
         assertEquals(deadline.export(), "D | 1 | 24 | test deadline submission | 14 | 12/9/2019 1314");
     }
 
+    /**
+     * This tests the task list that stores the various tasks of the application.
+     */
     @Test
     void testTaskList() {
         TaskList tasks = new TaskList();
@@ -63,6 +72,10 @@ class MainTest {
 
     }
 
+    /**
+     * This tests the command function of the application to ensure commands are parsed appropriately.
+     * @throws DukeException when the command cannot be parsed properly due to malformed input.
+     */
     @Test
     void testCommand() throws DukeException {
         StorageTest storageTest = new StorageTest();
